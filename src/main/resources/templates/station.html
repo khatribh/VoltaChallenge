@@ -7,6 +7,8 @@
 </head>
 <body>
 
+<h1>Stations</h1>
+
 <div id="map" style="width:100%;height:500px;"></div>
 
 
@@ -14,42 +16,78 @@
 <script type="text/javascript" th:inline="javascript">
     function myMap() {
         var r=[[${result}]];
-
         var i;
-         
-            var x = r[0].location.coordinates[0];
-            var y = r[0].location.coordinates[1];
-            var name = r[0].name;
+        var mapArray = [];
+        var marker;
+        var content, infowindow;
+        for(i=0;i<r.length;i++) {
+            var x = r[i].location.coordinates[0];
+            var y = r[i].location.coordinates[1];
+            var name = r[i].name;
+            var street_add=r[i].street_address;
+            var city=r[i].city;
+            var state=r[i].state;
+            var zipcode=r[i].zip_code;
+            var status=r[i].status;
 
 
+            var mapObject = {
+                x: '',
+                y: '',
+                name: '',
+                street_add: '',
+                city : '',
+                state : '',
+                zipcode :'',
+                status: ''
+
+            };
+
+            mapObject['x'] = x;
+            mapObject['y'] = y;
+            mapObject['name'] = name;
+            mapObject['street_add'] =street_add;
+            mapObject['city'] = city;
+            mapObject['state'] = state;
+            mapObject['zipcode'] = zipcode;
+            mapObject['status'] =status;
+
+
+            mapArray.push(mapObject);
 
             var myLatLng = new google.maps.LatLng(y, x);
 
             var mapCanvas = document.getElementById("map");
             var mapOptions = {
-                center: new google.maps.LatLng(y, x), zoom: 18
+                center: new google.maps.LatLng(y, x), zoom: 4
             };
             var map = new google.maps.Map(mapCanvas, mapOptions);
 
-            var marker;
-
-
-
-
+            for (var j=0; j<mapArray.length;j++) {
+                content='<div><p><b>Station Name:</b> '+mapArray[j].name+'<br>'
+                    +'<b>Address:</b> '+mapArray[j].street_add+', '+mapArray[j].city+', '+mapArray[j].state+', '+mapArray[j].zipcode+'<br>'
+                    +'<b>Status:</b> '+mapArray[j].status+'</p></div>';
+                infowindow = new google.maps.InfoWindow({
+                    content: content
+                });
                 marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(y, x),
-                    title: name
+                    position: new google.maps.LatLng(mapArray[j].y, mapArray[j].x),
+                    title: mapArray[j].name
                 });
 
                 marker.setMap(map);
-//
 
-
-
+                google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){
+                    return function() {
+                        infowindow.setContent(content);
+                        infowindow.open(map,marker);
+                    };
+                })(marker,content,infowindow));
+            }
+        }
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuHKp4d0VcoALqM_Z1OxTIhXV3i6aAh0&callback=myMap" async defer></script>
-
 
 </body>
 </html>
