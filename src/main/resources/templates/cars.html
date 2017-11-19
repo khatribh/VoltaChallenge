@@ -1,15 +1,33 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Cars</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
 
 </head>
+<body>
+<div class="backgroundImage">
+    <div class="text-center absoluteCenter">
+        <h1>Cars</h1>
+        <h3>An Overview of Car Model who visit Volta Charging Center</h3>
+    </div>
+</div>
 
-<h1>My Web Page</h1>
+<div class="container dataList">
 
+    <div id="barchart"></div>
+    <p><a href="/cars-by-make" class="btn btn-primary">Brand-Wise Model List</a></p>
+</div>
 
-<div id="piechart"></div>
+<footer>
+    <p>Copyright &copy; 2017. All rights reserved.</p>
+</footer>
+
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -22,18 +40,17 @@
 
     function drawChart() {
 
-        var d = [[${result}]] ;
-        var data = google.visualization.arrayToDataTable(d);
+        var carList = [[${result}]] ;
+        var data = google.visualization.arrayToDataTable(carList);
 
 
         var options = {'title':'Cars Model Statistics', 'width':1000, 'height':1000};
 
 
-        var chart = new google.visualization.BarChart(document.getElementById('piechart'));
+        var chart = new google.visualization.BarChart(document.getElementById('barchart'));
         chart.draw(data, options);
     }
 </script>
-
 
 </body>
 </html>
