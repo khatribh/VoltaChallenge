@@ -43,16 +43,16 @@ public class CarController {
         System.out.println(response.toString());
 
         Gson gson = new Gson();
-        Car c[] = gson.fromJson(response.toString(), Car[].class);
-        ArrayList<Car> carList = new ArrayList<Car>(Arrays.asList(c));
+        Car cars[] = gson.fromJson(response.toString(), Car[].class);
+        ArrayList<Car> carList = new ArrayList<Car>(Arrays.asList(cars));
 
 
         Map<String, Integer> countMap = new HashMap<String, Integer>();
-        for (int i = 0; i < c.length; i++) {
-            if (countMap.containsKey(c[i].getMake())) {
-                countMap.put(c[i].getMake(), countMap.get(c[i].getMake()) + 1);
+        for (int i = 0; i < cars.length; i++) {
+            if (countMap.containsKey(cars[i].getMake())) {
+                countMap.put(cars[i].getMake(), countMap.get(cars[i].getMake()) + 1);
             } else {
-                countMap.put(c[i].getMake(), 1);
+                countMap.put(cars[i].getMake(), 1);
             }
         }
         Object[][] result = new Object[countMap.size() + 1][2];
@@ -95,9 +95,9 @@ public class CarController {
         for(Object o: json){
 
             JSONObject jsonObject=(JSONObject)o;
-            CarsByMake cm=new CarsByMake();
-            ArrayList<Car> cL=new ArrayList<Car>();
-            cm.setMake((String)jsonObject.get("make"));
+            CarsByMake carsMake=new CarsByMake();
+            ArrayList<Car> carTempList=new ArrayList<Car>();
+            carsMake.setMake((String)jsonObject.get("make"));
 
             JSONArray models= (JSONArray) jsonObject.get("models");
             for(Object mod : models){
@@ -108,11 +108,11 @@ public class CarController {
                 car.setId((String) jsonObject1.get("id"));
                 car.setMake((String) jsonObject1.get("make"));
                 car.setModel((String) jsonObject1.get("model"));
-                cL.add(car);
+                carTempList.add(car);
 
             }
-            cm.setCarList(cL);
-            carList.add(cm);
+            carsMake.setCarList(carTempList);
+            carList.add(carsMake);
         }
         System.out.println(carList);
         model.addAttribute("list",carList );

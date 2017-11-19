@@ -35,8 +35,8 @@ public class StationController {
         System.out.println(response.toString());
 
         Gson gson=new Gson();
-        Station s[]=gson.fromJson(response.toString(),Station[].class);
-        ArrayList<Station> stationList=new ArrayList<Station>(Arrays.asList(s));
+        Station stations[]=gson.fromJson(response.toString(),Station[].class);
+        ArrayList<Station> stationList=new ArrayList<Station>(Arrays.asList(stations));
         model.addAttribute("result",stationList);
         return "station";
 
