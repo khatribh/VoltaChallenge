@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+<body>
+
+<div id="map" style="width:100%;height:500px;"></div>
+
+
+
+<script type="text/javascript" th:inline="javascript">
+    function myMap() {
+        var r=[[${result}]];
+
+        var i;
+         
+            var x = r[0].location.coordinates[0];
+            var y = r[0].location.coordinates[1];
+            var name = r[0].name;
+
+
+
+            var myLatLng = new google.maps.LatLng(y, x);
+
+            var mapCanvas = document.getElementById("map");
+            var mapOptions = {
+                center: new google.maps.LatLng(y, x), zoom: 18
+            };
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+
+            var marker;
+
+
+
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(y, x),
+                    title: name
+                });
+
+                marker.setMap(map);
+//
+
+
+
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHuHKp4d0VcoALqM_Z1OxTIhXV3i6aAh0&callback=myMap" async defer></script>
+
+
+</body>
+</html>
